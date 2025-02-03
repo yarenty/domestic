@@ -1,20 +1,28 @@
+use std::path::Path;
+
 use async_trait::async_trait;
 use loco_rs::{
-    app::{AppContext, Hooks},
-    bgworker::Queue,
+    app::{AppContext, Hooks, Initializer},
     boot::{create_app, BootResult, StartMode},
     config::Config,
     controller::AppRoutes,
+    db::{self, truncate_table},
     environment::Environment,
     task::Tasks,
+    bgworker::Queue,
     Result,
 };
+use migration::Migrator;
 
-use crate::controllers;
-#[allow(unused_imports)]
-use crate::tasks;
+use crate::{
+    controllers,
+    initializers,
+    models::_entities::users,
+    tasks,
+};
 
 pub struct App;
+
 #[async_trait]
 impl Hooks for App {
     fn app_name() -> &'static str {
@@ -32,20 +40,35 @@ impl Hooks for App {
     }
 
     async fn boot(mode: StartMode, environment: &Environment, config: Config) -> Result<BootResult> {
-        create_app::<Self>(mode, environment, config).await
+        create_app::<Self, Migrator>(mode, environment, config).await
+    }
+
+    async fn initializers(_ctx: &AppContext) -> Result<Vec<Box<dyn Initializer>>> {
+        Ok(vec![Box::new(
+            initializers::view_engine::ViewEngineInitializer,
+        )])
     }
 
     fn routes(_ctx: &AppContext) -> AppRoutes {
-        AppRoutes::empty() // controller routes below
-            .add_route(controllers::home::routes())
+        AppRoutes::with_default_routes()
+            .add_route(controllers::auth::routes())
     }
 
     async fn connect_workers(_ctx: &AppContext, _queue: &Queue) -> Result<()> {
         Ok(())
     }
 
-    #[allow(unused_variables)]
-    fn register_tasks(tasks: &mut Tasks) {
-        // tasks.register(TASK);
+    fn register_tasks(_tasks: &mut Tasks) {
+        // No tasks to register for now
+    }
+
+    async fn truncate(ctx: &AppContext) -> Result<()> {
+        truncate_table(&ctx.db, users::Entity).await?;
+        Ok(())
+    }
+
+    async fn seed(ctx: &AppContext, base: &Path) -> Result<()> {
+        db::seed::<users::ActiveModel>(&ctx.db, &base.join("users.yaml").display().to_string()).await?;
+        Ok(())
     }
 }

@@ -1,1 +1,2 @@
-mod home;
+mod auth;
+mod prepare_data;
