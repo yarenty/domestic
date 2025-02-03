@@ -12,6 +12,7 @@ A Rust project for local tasks and utilities - with LLM / RAG /ChatGPT
 
 # Introduction
 
+
 Create a local ChatGPT - which could work on a single machine, without access to internet.
 
 - [x] Basic functionality - PoC using existing tools: 
@@ -32,6 +33,18 @@ Create a local ChatGPT - which could work on a single machine, without access to
 
 - Rust (latest stable version)
 - Cargo (comes with Rust)
+- ollama
+- goose
+
+### Ollama installation
+
+tbd
+
+
+### Goose instalation
+
+tbd
+
 
 ### Building
 
