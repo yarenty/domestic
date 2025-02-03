@@ -6,11 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-02-03
+
 ### Added
-- Initial project setup with Cargo
-- Basic project structure and documentation
-- README.md with project information
-- CHANGELOG.md for tracking version history
+- Restructured project as a Rust workspace with three main crates:
+  - `domestic-cli`: Command-line interface for Ollama integration
+  - `domestic-web`: Web interface with Axum framework and health check endpoint
+  - `domestic-management`: Management utilities for models and system configuration
+- Set up workspace-level dependencies management
+- Added shared dependencies: tokio, serde, tracing
+- Implemented basic web server with health check endpoint
+- Added logging and tracing support across all crates
+- Configured cross-crate version management
+
+### Changed
+- Moved original Ollama integration code to CLI crate
+- Updated project structure to support multiple interfaces
+- Enhanced build system with workspace-wide configuration
 
 ## [0.1.0] - 2025-02-03
 
