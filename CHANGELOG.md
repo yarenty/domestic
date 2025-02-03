@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2025-02-03
+
+### Changed
+- Replaced Axum with Loco framework in web interface
+- Added MVC structure for web project
+- Implemented basic chat controller with REST API endpoint
+- Added configuration system with YAML support
+
 ## [0.2.0] - 2025-02-03
 
 ### Added

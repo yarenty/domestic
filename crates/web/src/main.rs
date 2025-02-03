@@ -1,27 +1,21 @@
-use axum::{
-    routing::get,
-    Router,
-};
-use tower_http::trace::TraceLayer;
-use tracing::info;
+use eyre::Result;
+use loco_rs::prelude::*;
 
 #[tokio::main]
-async fn main() {
-    // Initialize tracing
-    tracing_subscriber::fmt::init();
+async fn main() -> Result<()> {
+    let _ctx = Application::new()?
+        .configure(|app| {
+            app.with_name("domestic-web")
+                .with_version("0.3.0")
+        })
+        .initialize()
+        .await?;
 
-    // Build our application with a route
-    let app = Router::new()
-        .route("/", get(health_check))
-        .layer(TraceLayer::new_for_http());
-
-    info!("Starting web server on 0.0.0.0:3000");
+    info!("🚀 Domestic LLM Web Interface is running!");
     
-    // Run it
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+    Ok(())
 }
 
-async fn health_check() -> &'static str {
-    "Domestic LLM Web Interface is running!"
-}
+// async fn health_check() -> &'static str {
+//     "Domestic LLM Web Interface is running!"
+// }

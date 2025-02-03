@@ -5,14 +5,16 @@ edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Web interface for Domestic LLM"
+description = "Web interface for Domestic LLM using Loco framework"
 
 [dependencies]
 tokio.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
-axum = "0.7"
-tower = "0.4"
-tower-http = { version = "0.5", features = ["cors", "trace"] }
 serde.workspace = true
 serde_json.workspace = true
+
+# Loco framework dependencies
+loco-rs = "0.1.8"
+async-trait = "0.1"
+eyre = "0.6"
