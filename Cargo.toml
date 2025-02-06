@@ -14,10 +14,11 @@ license = "Apache-2.0"
 repository = "https://github.com/yarenty/domestic"
 description = "Local LLM/RAG/ChatGPT implementation"
 
+
 [workspace.dependencies]
 tokio = { version = "1.35", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tracing = "0.1"
 tracing-subscriber = "0.3"
-loco-rs = { version = "0.14.0", default-features = false, features = ["cli"] }
+loco-rs = { version = "0.14.0"}   # default-features = false, features = ["cli"] }
